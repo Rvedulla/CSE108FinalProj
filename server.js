@@ -33,12 +33,10 @@ app.post('/api/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const stmt = db.prepare('INSERT INTO users (username, password) VALUES (?, ?)');
     stmt.run(username, hashedPassword);
-    
-    const token = jwt.sign({ username }, JWT_SECRET);
-    res.json({ token, user: { username } });
+    res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
     console.error('Error during registration:', error);
-    res.status(400).json({ error: 'Username already exists' });
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
@@ -71,7 +69,7 @@ app.get('*', (req, res) => {
 });
 
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
