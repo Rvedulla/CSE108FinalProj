@@ -29,7 +29,7 @@ function App() {
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold text-gray-800 flex items-center">
               <GameController className="w-8 h-8 mr-2" />
-              Wordle Clone
+              Bobcat Wordle
             </h1>
             <div className="space-x-4">
               <button
