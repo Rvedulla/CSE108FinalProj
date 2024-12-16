@@ -13,7 +13,6 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ targetWord, onNewG
       <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-gray-800">Game Over!</h2>
-          <X className="w-6 h-6 text-gray-500" />
         </div>
         
         <p className="text-lg mb-4">

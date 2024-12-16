@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { Grid } from './components/Grid';
 import { Keyboard } from './components/Keyboard';
 import { AuthForm } from './components/AuthForm';
-import { GameOverModal } from './components/gameovermodal';
+import { GameOverModal } from './components/GameOverModal';
 import { useAuth } from './hooks/useAuth';
 import { useGame } from './hooks/useGame';
 import { Toaster } from 'react-hot-toast';
