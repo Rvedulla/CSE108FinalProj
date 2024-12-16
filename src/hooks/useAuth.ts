@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import { AuthService } from '../services/authService';
 
-export const useAuth = () => {
+export const useAuth = (onLogout?: () => void) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
@@ -24,6 +24,10 @@ export const useAuth = () => {
   const logout = () => {
     localStorage.removeItem('token');
     setIsAuthenticated(false);
+    if (onLogout) {
+      onLogout();
+    }
+    toast.success('Logged out successfully');
   };
 
   return {
