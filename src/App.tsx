@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { Grid } from './components/Grid';
 import { Keyboard } from './components/Keyboard';
 import { AuthForm } from './components/AuthForm';
+import { GameOverModal } from './components/gameovermodal';
 import { useAuth } from './hooks/useAuth';
 import { useGame } from './hooks/useGame';
 import { Toaster } from 'react-hot-toast';
@@ -10,12 +11,10 @@ import { Gamepad2 as GameController } from 'lucide-react';
 function App() {
   const { gameState, usedLetters, handleKeyPress, resetGame } = useGame();
   
-  // Create a memoized reset handler
   const handleReset = useCallback(() => {
     resetGame();
   }, [resetGame]);
 
-  // Pass the reset handler to useAuth
   const { isAuthenticated, handleAuth, logout } = useAuth(handleReset);
 
   if (!isAuthenticated) {
@@ -29,7 +28,7 @@ function App() {
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold text-gray-800 flex items-center">
               <GameController className="w-8 h-8 mr-2" />
-              Bobcat Wordle
+              Wordle Clone
             </h1>
             <div className="space-x-4">
               <button
@@ -56,6 +55,14 @@ function App() {
             onKeyPress={handleKeyPress}
             usedLetters={usedLetters}
           />
+          
+          {gameState.gameStatus === 'lost' && (
+            <GameOverModal
+              targetWord={gameState.targetWord}
+              onNewGame={resetGame}
+              onLogout={logout}
+            />
+          )}
         </div>
       </div>
       <Toaster position="top-center" />

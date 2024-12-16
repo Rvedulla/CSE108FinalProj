@@ -1,5 +1,5 @@
 import express from 'express';
-import Database from 'better-sqlite3'; // Corrected import statement
+import Database from 'better-sqlite3'; 
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { fileURLToPath } from 'url';
@@ -12,9 +12,8 @@ dotenv.config();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const db = new Database('wordle.db');
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key'; // Use environment variable
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key'; 
 
-// Initialize database
 db.exec(`
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -23,11 +22,10 @@ db.exec(`
   );
 `);
 
-app.use(cors()); // Enable CORS
+app.use(cors()); 
 app.use(express.json());
 app.use(express.static('dist'));
 
-// Register endpoint
 app.post('/api/register', async (req, res) => {
   const { username, password } = req.body;
   
@@ -44,7 +42,6 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
-// Login endpoint
 app.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
   
@@ -69,7 +66,6 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-// Serve index.html for all routes (SPA support)
 app.get('*', (req, res) => {
   res.sendFile(join(__dirname, 'dist', 'index.html'));
 });

@@ -7,7 +7,7 @@ interface GridProps {
 }
 
 export const Grid: React.FC<GridProps> = ({ guesses, currentGuess, targetWord }) => {
-  const empties = Array(6 - (guesses.length + 1)).fill('');
+  const empties = Array(Math.max(0, 6 - (guesses.length + 1))).fill('');
   const currentGuessArray = currentGuess.split('').concat(Array(5 - currentGuess.length).fill(''));
 
   const getLetterClass = (letter: string, index: number, word: string) => {
@@ -30,28 +30,26 @@ export const Grid: React.FC<GridProps> = ({ guesses, currentGuess, targetWord })
 
   return (
     <div className="grid grid-rows-6 gap-1 p-4">
-      {guesses.map((guess, i) => (
-        <div key={i} className="flex justify-center">
-          {guess.split('').map((letter, j) => (
-            <div key={j} className={getLetterClass(letter, j, guess)}>
+      {guesses.map((guess, rowIndex) => (
+        <div key={rowIndex} className="flex">
+          {guess.split('').map((letter, letterIndex) => (
+            <div key={letterIndex} className={getLetterClass(letter, letterIndex, guess)}>
               {letter}
             </div>
           ))}
         </div>
       ))}
-      {guesses.length < 6 && (
-        <div className="flex justify-center">
-          {currentGuessArray.map((letter, i) => (
-            <div key={i} className={getLetterClass(letter, i, '')}>
-              {letter}
-            </div>
-          ))}
-        </div>
-      )}
-      {empties.map((_, i) => (
-        <div key={i} className="flex justify-center">
-          {Array(5).fill('').map((_, j) => (
-            <div key={j} className="w-14 h-14 border-2 border-gray-300 rounded m-1" />
+      <div className="flex">
+        {currentGuessArray.map((letter, index) => (
+          <div key={index} className={getLetterClass(letter, index, currentGuess)}>
+            {letter}
+          </div>
+        ))}
+      </div>
+      {empties.map((_, rowIndex) => (
+        <div key={rowIndex} className="flex">
+          {Array(5).fill('').map((_, letterIndex) => (
+            <div key={letterIndex} className="w-14 h-14 border-2 border-gray-300 flex items-center justify-center text-2xl font-bold rounded m-1"></div>
           ))}
         </div>
       ))}

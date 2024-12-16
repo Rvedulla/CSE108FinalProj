@@ -3,6 +3,25 @@ import { GameState } from '../types';
 import { getRandomWord } from '../utils/words';
 import { toast } from 'react-hot-toast';
 
+const resetGame = (
+  setGameState?: React.Dispatch<React.SetStateAction<GameState>>,
+  setUsedLetters?: React.Dispatch<React.SetStateAction<{ [key: string]: 'correct' | 'present' | 'absent' | undefined }>>
+) => {
+  if (setGameState) {
+    setGameState({
+      guesses: [],
+      currentGuess: '',
+      gameStatus: 'playing',
+      targetWord: getRandomWord(),
+    });
+  }
+  if (setUsedLetters) {
+    setUsedLetters({});
+  }
+};
+
+export { resetGame };
+
 export const useGame = () => {
   const [gameState, setGameState] = useState<GameState>({
     guesses: [],
@@ -40,7 +59,7 @@ export const useGame = () => {
 
     updateUsedLetters();
     updateGameState(newGuesses, won, lost);
-    showGameResult(won, lost);
+    showGameResult(won, lost, newGuesses.length);
   };
 
   const updateUsedLetters = () => {
@@ -70,28 +89,18 @@ export const useGame = () => {
     }));
   };
 
-  const showGameResult = (won: boolean, lost: boolean) => {
+  const showGameResult = (won: boolean, lost: boolean, attempts: number) => {
     if (won) {
-      toast.success('Congratulations! You won! 🎉');
+      toast.success(`Congratulations! You won in ${attempts} attempts! 🎉`);
     } else if (lost) {
       toast.error(`Game Over! The word was ${gameState.targetWord}`);
     }
-  };
-
-  const resetGame = () => {
-    setGameState({
-      guesses: [],
-      currentGuess: '',
-      gameStatus: 'playing',
-      targetWord: getRandomWord(),
-    });
-    setUsedLetters({});
   };
 
   return {
     gameState,
     usedLetters,
     handleKeyPress,
-    resetGame,
+    resetGame: () => resetGame(setGameState, setUsedLetters),
   };
 };
