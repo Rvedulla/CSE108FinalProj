@@ -31,7 +31,7 @@ export const Grid: React.FC<GridProps> = ({ guesses, currentGuess, targetWord })
   return (
     <div className="grid grid-rows-6 gap-1 p-4">
       {guesses.map((guess, rowIndex) => (
-        <div key={rowIndex} className="flex">
+        <div key={rowIndex} className="flex justify-center">
           {guess.split('').map((letter, letterIndex) => (
             <div key={letterIndex} className={getLetterClass(letter, letterIndex, guess)}>
               {letter}
@@ -39,7 +39,7 @@ export const Grid: React.FC<GridProps> = ({ guesses, currentGuess, targetWord })
           ))}
         </div>
       ))}
-      <div className="flex">
+      <div className="flex justify-center">
         {currentGuessArray.map((letter, index) => (
           <div key={index} className={getLetterClass(letter, index, currentGuess)}>
             {letter}
@@ -47,7 +47,7 @@ export const Grid: React.FC<GridProps> = ({ guesses, currentGuess, targetWord })
         ))}
       </div>
       {empties.map((_, rowIndex) => (
-        <div key={rowIndex} className="flex">
+        <div key={rowIndex} className="flex justify-center">
           {Array(5).fill('').map((_, letterIndex) => (
             <div key={letterIndex} className="w-14 h-14 border-2 border-gray-300 flex items-center justify-center text-2xl font-bold rounded m-1"></div>
           ))}
