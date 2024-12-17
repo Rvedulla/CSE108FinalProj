@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 interface KeyboardProps {
   onKeyPress: (key: string) => void;
@@ -14,6 +14,26 @@ const KEYBOARD_ROWS = [
 ];
 
 export const Keyboard: React.FC<KeyboardProps> = ({ onKeyPress, usedLetters }) => {
+  // Map keypress event to onKeyPress function
+  useEffect(() => {
+    const handlePhysicalKeyPress = (event: KeyboardEvent) => {
+      const key = event.key.toUpperCase(); // Normalize input to uppercase
+      
+      if (/^[A-Z]$/.test(key)) {
+        onKeyPress(key);
+      } else if (event.key === 'Enter') {
+        onKeyPress('ENTER');
+      } else if (event.key === 'Backspace') {
+        onKeyPress('⌫');
+      }
+    };
+
+    window.addEventListener('keydown', handlePhysicalKeyPress);
+
+   
+    return () => window.removeEventListener('keydown', handlePhysicalKeyPress);
+  }, [onKeyPress]); 
+  
   const getKeyClass = (key: string) => {
     const status = usedLetters[key];
     const baseClass = 'p-2 m-1 rounded font-bold transition-colors';
